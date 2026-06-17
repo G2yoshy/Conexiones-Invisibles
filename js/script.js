@@ -57,9 +57,8 @@ if (nfc === "video1") {
     if (progreso >= 1) {
         playStep(
             //cambia vide1 y fondo2 por tus videos
-
-            "/resources/clip1",
-            "/resources/clip2",
+            "resources/clip1.mp4",
+            "resources/clip2.mp4",
             2
         );
     } else {

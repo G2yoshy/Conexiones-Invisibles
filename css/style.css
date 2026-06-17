@@ -34,18 +34,24 @@ body {
 /*OVERLAY */
 #overlayVideo {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
 
-    width: 320px;
-    height: 180px;
+    top: 50%;
+    left: 50%;
+
+    transform: translate(-50%, -50%) scale();
+
+    width: 1024px;
+    height: 768px;
 
     object-fit: cover;
 
-    border-radius: 12px;
+    border-radius: 16px;
     z-index: 10;
 
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+
+    opacity: 0;
+    transition: all 0.5s ease;
 }
 
 /*OCULTO */
@@ -80,29 +86,8 @@ body {
     filter: blur(20px);
 }
 
-/* overlay estilo Apple */
-#overlayVideo {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-
-    width: 340px;
-    height: 190px;
-
-    object-fit: cover;
-
-    border-radius: 16px;
-    z-index: 10;
-
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-
-    transform: scale(0.9);
-    opacity: 0;
-    transition: all 0.5s ease;
-}
-
 /* overlay visible */
 #overlayVideo.show {
-    transform: scale(1);
     opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
 }
