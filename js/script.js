@@ -13,60 +13,58 @@ function unlockAudio() {
 }
 
 /* 🎬 FUNCIÓN PRINCIPAL */
-function playStep(overlaySrc, newBg, nextState) {
+function safePlay(video) {
+  video.pause();
+  video.currentTime = 0;
 
-    unlockAudio(); // 🔊 clave para autoplay con sonido
-
-    // preparar overlay
-    overlay.src = overlaySrc;
-    overlay.load();
-
-    overlay.classList.add("show");
-    overlay.classList.remove("hidden");
-
-    overlay.volume = 1.0;
-    overlay.muted = false;
-
-    // 🔥 play seguro (evita fallo silencioso)
-    const playPromise = overlay.play();
-    if (playPromise !== undefined) {
-        playPromise.catch(err => {
-            console.log("Autoplay bloqueado:", err);
-        });
-    }
-
-    overlay.onended = () => {
-
-        // 🍎 transición Apple
-        bgVideo.classList.add("transitioning");
-        overlay.classList.remove("show");
-
-        setTimeout(() => {
-
-            // cambiar fondo
-            bgVideo.src = newBg;
-            bgVideo.load();
-
-            const bgPlay = bgVideo.play();
-            if (bgPlay !== undefined) {
-                bgPlay.catch(err => console.log("BG play error:", err));
-            }
-
-            // restaurar transición
-            setTimeout(() => {
-                bgVideo.classList.remove("transitioning");
-            }, 300);
-
-            overlay.classList.add("hidden");
-
-            // guardar progreso
-            localStorage.setItem("progreso", nextState);
-            progreso = nextState;
-
-        }, 600);
-    };
+  const p = video.play();
+  if (p) p.catch(err => console.log("Play error:", err));
 }
 
+function playStep(overlaySrc, newBg, nextState) {
+  unlockAudio();
+
+  overlay.onended = null;
+
+  overlay.pause();
+  overlay.currentTime = 0;
+
+  overlay.src = overlaySrc;
+  overlay.load();
+
+  overlay.classList.add("show");
+  overlay.classList.remove("hidden");
+
+  overlay.muted = false;
+
+  overlay.play().catch(err => console.log("Overlay autoplay error:", err));
+
+  overlay.onended = () => {
+    bgVideo.classList.add("transitioning");
+    overlay.classList.remove("show");
+
+    setTimeout(() => {
+      bgVideo.pause();
+      bgVideo.currentTime = 0;
+
+      bgVideo.src = newBg;
+      bgVideo.load();
+
+      bgVideo.oncanplay = () => {
+        safePlay(bgVideo);
+      };
+
+      setTimeout(() => {
+        bgVideo.classList.remove("transitioning");
+      }, 300);
+
+      overlay.classList.add("hidden");
+
+      localStorage.setItem("progreso", nextState);
+      progreso = nextState;
+    }, 600);
+  };
+}
 /* 🧲 NFC START */
 if (nfc === "start") {
     localStorage.setItem("progreso", "1");
