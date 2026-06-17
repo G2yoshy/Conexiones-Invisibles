@@ -43,7 +43,7 @@ if (nfc === "video1") {
     if (progreso >= 1) {
         playStep(
             //cambia vide1 y video2 por tus videos
-            "resources/video1.mp4",
+            "resources/2026-06-03 00-54-13.mp4",
             "resources/fondo2.mp4",
             2
         );
