@@ -9,29 +9,42 @@ let progreso = parseInt(localStorage.getItem("progreso") || "0");
 // FUNCIÓN PRINCIPAL
 function playStep(overlaySrc, newBg, nextState) {
 
+    //  preparar overlay
     overlay.src = overlaySrc;
     overlay.load();
+
+    overlay.classList.add("show");
     overlay.classList.remove("hidden");
+
     overlay.play();
 
     overlay.onended = () => {
 
-        bgVideo.style.opacity = 0;
+        //  INICIO TRANSICIÓN APPLE
+        bgVideo.classList.add("transitioning");
+        overlay.classList.remove("show");
 
         setTimeout(() => {
+
+            //  cambiar fondo
             bgVideo.src = newBg;
             bgVideo.load();
             bgVideo.play();
-            bgVideo.style.opacity = 1;
-        }, 300);
 
-        overlay.classList.add("hidden");
+            //  restaurar fondo
+            setTimeout(() => {
+                bgVideo.classList.remove("transitioning");
+            }, 300);
 
-        localStorage.setItem("progreso", nextState);
-        progreso = nextState;
+            // ocultar overlay
+            overlay.classList.add("hidden");
+
+            // guardar progreso
+            localStorage.setItem("progreso", nextState);
+
+        }, 600);
     };
 }
-
 // NFC START 
 if (nfc === "start") {
     localStorage.setItem("progreso", "1");
