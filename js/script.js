@@ -6,61 +6,79 @@ const nfc = params.get("nfc");
 
 let progreso = parseInt(localStorage.getItem("progreso") || "0");
 
-// FUNCIÓN PRINCIPAL
+/* 🔊 DESBLOQUEO DE AUDIO GLOBAL (IMPORTANTE) */
+function unlockAudio() {
+    overlay.muted = false;
+    bgVideo.muted = true;
+}
+
+/* 🎬 FUNCIÓN PRINCIPAL */
 function playStep(overlaySrc, newBg, nextState) {
 
-    //  preparar overlay
+    unlockAudio(); // 🔊 clave para autoplay con sonido
+
+    // preparar overlay
     overlay.src = overlaySrc;
     overlay.load();
 
     overlay.classList.add("show");
     overlay.classList.remove("hidden");
 
-    overlay.muted = false;
     overlay.volume = 1.0;
+    overlay.muted = false;
 
-    overlay.play().catch(err => {
-        console.log("Error autoplay:", err);
-    });
+    // 🔥 play seguro (evita fallo silencioso)
+    const playPromise = overlay.play();
+    if (playPromise !== undefined) {
+        playPromise.catch(err => {
+            console.log("Autoplay bloqueado:", err);
+        });
+    }
+
     overlay.onended = () => {
 
-        //  INICIO TRANSICIÓN APPLE
+        // 🍎 transición Apple
         bgVideo.classList.add("transitioning");
         overlay.classList.remove("show");
 
         setTimeout(() => {
 
-            //  cambiar fondo
+            // cambiar fondo
             bgVideo.src = newBg;
             bgVideo.load();
-            bgVideo.play();
 
-            //  restaurar fondo
+            const bgPlay = bgVideo.play();
+            if (bgPlay !== undefined) {
+                bgPlay.catch(err => console.log("BG play error:", err));
+            }
+
+            // restaurar transición
             setTimeout(() => {
                 bgVideo.classList.remove("transitioning");
             }, 300);
 
-            // ocultar overlay
             overlay.classList.add("hidden");
 
             // guardar progreso
             localStorage.setItem("progreso", nextState);
+            progreso = nextState;
 
         }, 600);
     };
 }
-// NFC START 
+
+/* 🧲 NFC START */
 if (nfc === "start") {
     localStorage.setItem("progreso", "1");
     progreso = 1;
+    unlockAudio(); // 🔊 importante desde el inicio
 }
 
-// NFC 1
+/* 🎬 NFC 1 */
 if (nfc === "video1") {
 
     if (progreso >= 1) {
         playStep(
-            //cambia vide1 y fondo2 por tus videos
             "resources/clip1.mp4",
             "resources/clip2.mp4",
             2
@@ -70,12 +88,11 @@ if (nfc === "video1") {
     }
 }
 
-//NFC 2
+/* 🎬 NFC 2 */
 if (nfc === "video2") {
 
     if (progreso >= 2) {
         playStep(
-            //cambia vide2 y fondo3 por tus videos
             "resources/video2.mp4",
             "resources/fondo3.mp4",
             3
@@ -85,15 +102,14 @@ if (nfc === "video2") {
     }
 }
 
-//NFC 3
+/* 🎬 NFC 3 */
 if (nfc === "video3") {
 
     if (progreso >= 3) {
         playStep(
-            //cambia vide1 y video2 por tus videos
             "resources/video3.mp4",
             "resources/fondo4.mp4",
-            3
+            4
         );
     } else {
         alert("Acceso bloqueado");
