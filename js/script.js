@@ -44,7 +44,7 @@ if (nfc === "video1") {
         playStep(
             //cambia vide1 y fondo2 por tus videos
             "resources/2026-06-03 00-54-13.mp4",
-            "resources/fondo2.mp4",
+            "resources/2026-06-03 06-15-29.mp4",
             2
         );
     } else {
@@ -67,6 +67,7 @@ if (nfc === "video2") {
     }
 }
 
+//NFC 3
 if (nfc === "video3") {
 
     if (progreso >= 3) {
