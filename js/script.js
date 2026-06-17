@@ -79,8 +79,9 @@ if (nfc === "video1") {
 
     if (progreso >= 1) {
         playStep(
-            "resources/clip1.mp4",
-            "resources/clip2.mp4",
+            //aqui cambias los videos, el de arriba(clip1) es el q va por encima y el clip2 es el background y asi con todos)
+            "resources/videolatam.mp4",
+            "resources/videofondo.mp4",
             2
         );
     } else {
@@ -93,8 +94,8 @@ if (nfc === "video2") {
 
     if (progreso >= 2) {
         playStep(
-            "resources/video2.mp4",
-            "resources/fondo3.mp4",
+            "resources/videocongo.mp4",
+            "resources/videofondo.mp4",
             3
         );
     } else {
@@ -107,8 +108,8 @@ if (nfc === "video3") {
 
     if (progreso >= 3) {
         playStep(
-            "resources/video3.mp4",
-            "resources/fondo4.mp4",
+            "resources/videoespa.mp4",
+            "resources/videofondo.mp4",
             4
         );
     } else {
