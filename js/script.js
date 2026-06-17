@@ -72,3 +72,44 @@ updateLandscape();
 window.addEventListener("resize", updateLandscape);
 window.addEventListener("orientationchange", updateLandscape);
 
+
+//activacion por NFC video1
+const params = new URLSearchParams(window.location.search);
+const estado = params.get("nfc");
+
+const overlay = document.getElementById("overlayVideo");
+
+// Si viene desde NFC
+if (estado === "video") {
+    overlay.classList.remove("hidden");
+    overlay.play();
+}
+
+overlay.classList.remove("hidden");
+setTimeout(() => overlay.classList.add("show"), 50);
+
+const params = new URLSearchParams(window.location.search);
+const nfc = params.get("nfc");
+
+const bgVideo = document.getElementById("bgVideo");
+const overlay = document.getElementById("overlayVideo");
+
+// 👉 Si viene desde NFC
+if (nfc === "video") {
+
+    // mostrar vídeo overlay
+    overlay.classList.remove("hidden");
+    overlay.play();
+
+    // cuando termina el overlay...
+    overlay.addEventListener("ended", () => {
+
+        // cambiar fondo
+        bgVideo.src = "fondo2.mp4";
+        bgVideo.load();
+        bgVideo.play();
+
+        // ocultar overlay
+        overlay.classList.add("hidden");
+    });
+}
