@@ -23,8 +23,7 @@ function playStep(overlaySrc, newBg, nextState) {
         //  INICIO TRANSICIÓN APPLE
         bgVideo.classList.add("transitioning");
         overlay.classList.remove("show");
-        
-        
+
         setTimeout(() => {
 
             //  cambiar fondo
