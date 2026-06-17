@@ -1,31 +1,28 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Video Responsive</title>
-    <link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Conexiones invisibles</title>
+<link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
 
-    <div class="rotate-warning">
-        <p>Gira tu dispositivo a horizontal</p>
-    </div>
+<!--AVISO ORIENTACIÓN -->
+<div id="rotateWarning">
+    Gira tu dispositivo a horizontal
+</div>
 
-    <video id="bgVideo" autoplay muted loop playsinline>
-        <!--poner en src el video, el video tiene que ir en la carpeta resources-->
-        <source id="videoSource" src="resources/Digital World Map.mp4" type="video/mp4">
-    </video>
+<!--VIDEO FONDO -->
+<video id="bgVideo" autoplay muted loop playsinline>
+    <source src="resources/Digital World Map.mp4" type="video/mp4">
+</video>
 
-    <script src="js/script.js"></script>
+<!--OVERLAY -->
+<video id="overlayVideo" class="hidden" muted playsinline></video>
 
-    <!-- VIDEO OVERLAY 1-->
-    <video id="overlayVideo" class="hidden" autoplay muted playsinline>
-        <source src="resources/2026-06-03 00-54-14.mp4" type="video/mp4">
-    </video>
+<script src="js/script.js"></script>
 
 </body>
-
 </html>

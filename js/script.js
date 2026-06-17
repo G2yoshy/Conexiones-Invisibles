@@ -1,115 +1,68 @@
-const video = document.getElementById("bgVideo");
-const source = document.getElementById("videoSource");
-
-
-function checkOrientation() {
-    if (window.innerHeight > window.innerWidth) {
-        console.log("Modo vertical → mostrar aviso");
-    } else {
-        console.log("Modo horizontal → mostrar vídeo");
-    }
-}
-
-window.addEventListener("resize", checkOrientation);
-window.addEventListener("orientationchange", checkOrientation);
-
-checkOrientation();
-
-
-function setVideo() {
-    const isMobile = window.matchMedia("(max-width: 768px)").matches;
-
-    const newSrc = isMobile
-        ? "videos/mobile.mp4"
-        : "videos/desktop.mp4";
-
-    if (source.getAttribute("src") !== newSrc) {
-        source.setAttribute("src", newSrc);
-        video.load();
-        video.play();
-    }
-}
-
-// Ejecutar al cargar
-setVideo();
-
-// Ejecutar si cambia tamaño (rotación móvil / resize)
-window.addEventListener("resize", setVideo);
-
-let current = "";
-
-function setVideo() {
-    const isMobile = window.matchMedia("(max-width: 768px)").matches;
-
-    const newSrc = isMobile
-        ? "videos/mobile.mp4"
-        : "videos/desktop.mp4";
-
-    if (current === newSrc) return;
-
-    current = newSrc;
-    source.src = newSrc;
-    video.load();
-    video.play();
-}
-
-//girar movil
-function updateLandscape() {
-    const isLandscape = window.matchMedia("(orientation: landscape)").matches;
-    //horizontal
-    if(isLandscape){
-        video.style.objectFit = "cover";
-        video.style.transform = "scale(1)";
-    } else {
-        //vertical
-        video.style.objectFit = "cover";
-        video.style.transform = "scale(1.2)";
-    }
-}
-
-updateLandscape();
-
-window.addEventListener("resize", updateLandscape);
-window.addEventListener("orientationchange", updateLandscape);
-
-
-//activacion por NFC video1
-const params = new URLSearchParams(window.location.search);
-const estado = params.get("nfc");
-
+const bgVideo = document.getElementById("bgVideo");
 const overlay = document.getElementById("overlayVideo");
-
-// Si viene desde NFC
-if (estado === "video") {
-    overlay.classList.remove("hidden");
-    overlay.play();
-}
-
-overlay.classList.remove("hidden");
-setTimeout(() => overlay.classList.add("show"), 50);
 
 const params = new URLSearchParams(window.location.search);
 const nfc = params.get("nfc");
 
-const bgVideo = document.getElementById("bgVideo");
-const overlay = document.getElementById("overlayVideo");
+let progreso = parseInt(localStorage.getItem("progreso") || "0");
 
-// 👉 Si viene desde NFC
-if (nfc === "video") {
+// FUNCIÓN PRINCIPAL
+function playStep(overlaySrc, newBg, nextState) {
 
-    // mostrar vídeo overlay
+    overlay.src = overlaySrc;
     overlay.classList.remove("hidden");
     overlay.play();
 
-    // cuando termina el overlay...
-    overlay.addEventListener("ended", () => {
+    overlay.onended = () => {
 
-        // cambiar fondo
-        bgVideo.src = "fondo2.mp4";
-        bgVideo.load();
-        bgVideo.play();
+        bgVideo.style.opacity = 0;
 
-        // ocultar overlay
+        setTimeout(() => {
+            bgVideo.src = newBg;
+            bgVideo.load();
+            bgVideo.play();
+            bgVideo.style.opacity = 1;
+        }, 300);
+
         overlay.classList.add("hidden");
-    });
+
+        localStorage.setItem("progreso", nextState);
+        progreso = nextState;
+    };
+}
+
+// NFC START 
+if (nfc === "start") {
+    localStorage.setItem("progreso", "1");
+    progreso = 1;
+}
+
+// NFC 1
+if (nfc === "video1") {
+
+    if (progreso >= 1) {
+        playStep(
+            //cambia vide1 y video2 por tus videos
+            "resources/video1.mp4",
+            "resources/fondo2.mp4",
+            2
+        );
+    } else {
+        alert("Primero activa el NFC inicial");
+    }
+}
+
+//NFC 2
+if (nfc === "video2") {
+
+    if (progreso >= 2) {
+        playStep(
+            //cambia vide1 y video2 por tus videos
+            "resources/video2.mp4",
+            "resources/fondo3.mp4",
+            3
+        );
+    } else {
+        alert("Acceso bloqueado");
+    }
 }
