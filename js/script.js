@@ -79,8 +79,8 @@ if (nfc === "video1") {
 
     if (progreso >= 1) {
         playStep(
-            "resources/clip1.mp4",
-            "resources/clip2.mp4",
+            "resources/video1.mp4",
+            "resources/video0.mp4",
             2
         );
     } else {
@@ -94,7 +94,7 @@ if (nfc === "video2") {
     if (progreso >= 2) {
         playStep(
             "resources/video2.mp4",
-            "resources/fondo3.mp4",
+            "resources/video0.mp4",
             3
         );
     } else {
@@ -108,7 +108,7 @@ if (nfc === "video3") {
     if (progreso >= 3) {
         playStep(
             "resources/video3.mp4",
-            "resources/fondo4.mp4",
+            "resources/video0.mp4",
             4
         );
     } else {
