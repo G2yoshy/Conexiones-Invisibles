@@ -10,6 +10,7 @@ let progreso = parseInt(localStorage.getItem("progreso") || "0");
 function playStep(overlaySrc, newBg, nextState) {
 
     overlay.src = overlaySrc;
+    overlay.load();
     overlay.classList.remove("hidden");
     overlay.play();
 
@@ -43,8 +44,9 @@ if (nfc === "video1") {
     if (progreso >= 1) {
         playStep(
             //cambia vide1 y fondo2 por tus videos
-            "resources/2026-06-03 00-54-13.mp4",
-            "resources/2026-06-03 06-15-29.mp4",
+
+            "resources/clip1",
+            "resources/clip2",
             2
         );
     } else {
