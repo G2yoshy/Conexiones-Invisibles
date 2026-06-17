@@ -6,6 +6,8 @@ const nfc = params.get("nfc");
 
 let progreso = parseInt(localStorage.getItem("progreso") || "0");
 
+
+
 // FUNCIÓN PRINCIPAL
 function playStep(overlaySrc, newBg, nextState) {
 
@@ -16,7 +18,9 @@ function playStep(overlaySrc, newBg, nextState) {
     overlay.classList.add("show");
     overlay.classList.remove("hidden");
 
-    overlay.play();
+    overlay.play().catch(err => {
+        console.log("Autoplay bloqueado:", err);
+    });
 
     overlay.onended = () => {
 
@@ -44,6 +48,19 @@ function playStep(overlaySrc, newBg, nextState) {
 
         }, 600);
     };
+}
+
+function safePlay(video) {
+    video.muted = false;
+    video.load();
+
+    const p = video.play();
+
+    if (p !== undefined) {
+        p.catch(() => {
+            console.log("Esperando interacción...");
+        });
+    }
 }
 // NFC START 
 if (nfc === "start") {
