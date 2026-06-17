@@ -42,7 +42,7 @@ if (nfc === "video1") {
 
     if (progreso >= 1) {
         playStep(
-            //cambia vide1 y video2 por tus videos
+            //cambia vide1 y fondo2 por tus videos
             "resources/2026-06-03 00-54-13.mp4",
             "resources/fondo2.mp4",
             2
@@ -57,9 +57,23 @@ if (nfc === "video2") {
 
     if (progreso >= 2) {
         playStep(
-            //cambia vide1 y video2 por tus videos
+            //cambia vide2 y fondo3 por tus videos
             "resources/video2.mp4",
             "resources/fondo3.mp4",
+            3
+        );
+    } else {
+        alert("Acceso bloqueado");
+    }
+}
+
+if (nfc === "video3") {
+
+    if (progreso >= 3) {
+        playStep(
+            //cambia vide1 y video2 por tus videos
+            "resources/video3.mp4",
+            "resources/fondo4.mp4",
             3
         );
     } else {
